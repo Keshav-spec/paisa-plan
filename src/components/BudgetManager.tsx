@@ -62,13 +62,21 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
     );
     const daysRemaining = Math.max(0, budget.duration - daysElapsed);
     const dailyBudget = budget.totalAmount / budget.duration;
-    const expectedSpent = dailyBudget * daysElapsed;
-    const isOverBudget = totalExpenses > expectedSpent;
+    
+    // Fix: Ensure we account for at least 1 day elapsed to avoid division by zero
+    const actualDaysElapsed = Math.max(1, daysElapsed);
+    const expectedSpent = dailyBudget * actualDaysElapsed;
+    
+    // Fix: More reasonable over-budget calculation
+    // Only consider over budget if spending exceeds total budget OR
+    // if more than 20% over the expected spending for elapsed time
+    const isOverBudget = totalExpenses > budget.totalAmount || 
+                        (actualDaysElapsed > 0 && totalExpenses > expectedSpent * 1.2);
 
     return {
       remaining,
       percentUsed,
-      daysElapsed,
+      daysElapsed: actualDaysElapsed,
       daysRemaining,
       dailyBudget,
       expectedSpent,
@@ -86,11 +94,15 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
     const tips = [];
 
     if (status.isOverBudget) {
+      const overSpendPercentage = totalExpenses > budget.totalAmount 
+        ? ((totalExpenses / budget.totalAmount - 1) * 100).toFixed(1)
+        : ((totalExpenses / status.expectedSpent - 1) * 100).toFixed(1);
+        
       tips.push({
         icon: AlertTriangle,
         type: "warning",
         title: "Over Budget Alert",
-        message: `You're spending ${((totalExpenses / status.expectedSpent - 1) * 100).toFixed(1)}% more than planned. Consider reducing discretionary expenses.`
+        message: `You're spending ${overSpendPercentage}% more than planned. Consider reducing discretionary expenses.`
       });
     }
 
