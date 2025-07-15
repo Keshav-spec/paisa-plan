@@ -159,7 +159,7 @@ export const CategoryList = ({ categories, onUpdateCategories, expenses }: Categ
                         <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                           <span className="flex items-center space-x-1">
                             <DollarSign className="h-3 w-3" />
-                            <span>${total.toFixed(2)}</span>
+                            <span>₹{total.toFixed(2)}</span>
                           </span>
                           <span>{categoryExpenses.length} expenses</span>
                         </div>
@@ -197,7 +197,7 @@ export const CategoryList = ({ categories, onUpdateCategories, expenses }: Categ
                 <div className="mt-3 bg-background/30 rounded-lg p-2">
                   <div className="flex justify-between text-sm">
                     <span>Category Total</span>
-                    <span className="font-semibold">${total.toFixed(2)}</span>
+                    <span className="font-semibold">₹{total.toFixed(2)}</span>
                   </div>
                   <div 
                     className="h-2 bg-primary/20 rounded-full mt-2"

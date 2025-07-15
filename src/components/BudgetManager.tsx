@@ -99,7 +99,7 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
         icon: Lightbulb,
         type: "info",
         title: "Daily Budget Tip",
-        message: `You have $${status.dailyRemaining.toFixed(2)} to spend per day for the remaining ${status.daysRemaining} days.`
+        message: `You have ₹${status.dailyRemaining.toFixed(2)} to spend per day for the remaining ${status.daysRemaining} days.`
       });
     }
 
@@ -205,7 +205,7 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
               <div>
                 <p className="text-primary-foreground/80 text-sm">Remaining Budget</p>
                 <p className="text-3xl font-bold text-primary-foreground">
-                  ${status.remaining.toFixed(2)}
+                  ₹{status.remaining.toFixed(2)}
                 </p>
               </div>
               <Target className="h-8 w-8 text-primary-foreground/80" />
@@ -240,7 +240,7 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
                 <DollarSign className="h-5 w-5 text-warning" />
                 <div>
                   <p className="text-xs text-muted-foreground">Daily Budget</p>
-                  <p className="text-lg font-semibold">${status.dailyRemaining.toFixed(2)}</p>
+                  <p className="text-lg font-semibold">₹{status.dailyRemaining.toFixed(2)}</p>
                 </div>
               </div>
             </Card>
@@ -252,15 +252,15 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Total Budget</span>
-                <span className="font-medium">${budget.totalAmount.toFixed(2)}</span>
+                <span className="font-medium">₹{budget.totalAmount.toFixed(2)}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Total Spent</span>
-                <span className="font-medium">${totalExpenses.toFixed(2)}</span>
+                <span className="font-medium">₹{totalExpenses.toFixed(2)}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Expected Spending</span>
-                <span className="font-medium">${status.expectedSpent.toFixed(2)}</span>
+                <span className="font-medium">₹{status.expectedSpent.toFixed(2)}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Status</span>

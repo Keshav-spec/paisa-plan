@@ -91,7 +91,7 @@ export const ExpenseTracker = () => {
     
     toast({
       title: "Expense Added",
-      description: `${expenseData.title} - $${expenseData.amount}`,
+      description: `${expenseData.title} - ₹${expenseData.amount}`,
     });
 
     // Check budget warnings
@@ -151,7 +151,7 @@ export const ExpenseTracker = () => {
           <div>
             <p className="text-primary-foreground/80 text-sm">Current Balance</p>
             <p className="text-3xl font-bold text-primary-foreground">
-              ${currentBalance.toFixed(2)}
+              ₹{currentBalance.toFixed(2)}
             </p>
           </div>
           <Wallet className="h-8 w-8 text-primary-foreground/80" />
@@ -165,7 +165,7 @@ export const ExpenseTracker = () => {
             <TrendingDown className="h-5 w-5 text-destructive" />
             <div>
               <p className="text-xs text-muted-foreground">This Month</p>
-              <p className="text-lg font-semibold">${stats.monthlyTotal.toFixed(2)}</p>
+              <p className="text-lg font-semibold">₹{stats.monthlyTotal.toFixed(2)}</p>
               <p className="text-xs text-muted-foreground">{stats.monthlyCount} expenses</p>
             </div>
           </div>
@@ -176,7 +176,7 @@ export const ExpenseTracker = () => {
             <TrendingUp className="h-5 w-5 text-warning" />
             <div>
               <p className="text-xs text-muted-foreground">This Week</p>
-              <p className="text-lg font-semibold">${stats.weeklyTotal.toFixed(2)}</p>
+              <p className="text-lg font-semibold">₹{stats.weeklyTotal.toFixed(2)}</p>
               <p className="text-xs text-muted-foreground">{stats.weeklyCount} expenses</p>
             </div>
           </div>

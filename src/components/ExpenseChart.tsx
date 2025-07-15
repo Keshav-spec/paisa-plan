@@ -51,7 +51,7 @@ export const ExpenseChart = ({ expenses, categories, showDetails = false }: Expe
         <div className="bg-popover border border-border/50 rounded-lg p-3 shadow-elevated">
           <p className="font-medium">{label}</p>
           <p className="text-primary">
-            Amount: ${payload[0].value.toFixed(2)}
+            Amount: ₹{payload[0].value.toFixed(2)}
           </p>
           {payload[0].payload.count && (
             <p className="text-muted-foreground text-sm">
@@ -118,7 +118,7 @@ export const ExpenseChart = ({ expenses, categories, showDetails = false }: Expe
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
-                  label={({name, value}) => `${name}: $${value.toFixed(0)}`}
+                  label={({name, value}) => `${name}: ₹${value.toFixed(0)}`}
                   labelLine={false}
                 >
                   {categoryData.map((entry, index) => (
@@ -165,7 +165,7 @@ export const ExpenseChart = ({ expenses, categories, showDetails = false }: Expe
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-semibold">${category.value.toFixed(2)}</p>
+                  <p className="font-semibold">₹{category.value.toFixed(2)}</p>
                   <div 
                     className="w-3 h-3 rounded-full ml-auto mt-1"
                     style={{ backgroundColor: category.color }}
@@ -194,7 +194,7 @@ export const ExpenseChart = ({ expenses, categories, showDetails = false }: Expe
                       </p>
                     </div>
                   </div>
-                  <p className="font-semibold text-sm">${expense.amount.toFixed(2)}</p>
+                  <p className="font-semibold text-sm">₹{expense.amount.toFixed(2)}</p>
                 </div>
               );
             })}
