@@ -1,8 +1,6 @@
-# Welcome to your Lovable project
+# Welcome to Paisa Plan
 
-## Project info
 
-**URL**: https://lovable.dev/projects/c1ddba3a-e4b1-4de5-a097-bc491f2af6ab
 
 ## How can I edit this code?
 
