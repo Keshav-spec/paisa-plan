@@ -67,11 +67,11 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
     const actualDaysElapsed = Math.max(1, daysElapsed);
     const expectedSpent = dailyBudget * actualDaysElapsed;
     
-    // Fix: More reasonable over-budget calculation
-    // Only consider over budget if spending exceeds total budget OR
-    // if more than 20% over the expected spending for elapsed time
+    // More sensitive over-budget calculation for better daily tracking
+    // Consider over budget if spending exceeds total budget OR
+    // if spending is more than 10% over expected spending for elapsed time
     const isOverBudget = totalExpenses > budget.totalAmount || 
-                        (actualDaysElapsed > 0 && totalExpenses > expectedSpent * 1.2);
+                        (actualDaysElapsed > 0 && totalExpenses > expectedSpent * 1.1);
 
     return {
       remaining,
