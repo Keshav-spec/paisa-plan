@@ -45,7 +45,8 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
       totalAmount: amount,
       duration: days,
       startDate: new Date().toISOString(),
-      monthlyLimit: amount / (days / 30)
+      weeklyLimit: amount / (days / 7),
+      credits: 0
     };
 
     onUpdateBudget(newBudget);
@@ -61,11 +62,14 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
       (new Date().getTime() - new Date(budget.startDate).getTime()) / (1000 * 60 * 60 * 24)
     );
     const daysRemaining = Math.max(0, budget.duration - daysElapsed);
-    const dailyBudget = budget.totalAmount / budget.duration;
     
     // Fix: Ensure we account for at least 1 day elapsed to avoid division by zero
     const actualDaysElapsed = Math.max(1, daysElapsed);
-    const expectedSpent = dailyBudget * actualDaysElapsed;
+    
+    const weeklyBudget = budget.totalAmount / (budget.duration / 7);
+    const weeksElapsed = Math.ceil(actualDaysElapsed / 7);
+    const weeksRemaining = Math.max(1, Math.ceil(daysRemaining / 7));
+    const expectedSpent = weeklyBudget * weeksElapsed;
     
     // More sensitive over-budget calculation for better daily tracking
     // Consider over budget if spending exceeds total budget OR
@@ -78,10 +82,12 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
       percentUsed,
       daysElapsed: actualDaysElapsed,
       daysRemaining,
-      dailyBudget,
+      weeklyBudget,
+      weeksElapsed,
+      weeksRemaining,
       expectedSpent,
       isOverBudget,
-      dailyRemaining: remaining / Math.max(1, daysRemaining)
+      weeklyRemaining: remaining / weeksRemaining
     };
   };
 
@@ -110,8 +116,8 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
       tips.push({
         icon: Lightbulb,
         type: "info",
-        title: "Daily Budget Tip",
-        message: `You have ₹${status.dailyRemaining.toFixed(2)} to spend per day for the remaining ${status.daysRemaining} days.`
+        title: "Weekly Budget Tip",
+        message: `You have ₹${status.weeklyRemaining.toFixed(2)} to spend per week for the remaining ${status.weeksRemaining} weeks.`
       });
     }
 
@@ -251,8 +257,8 @@ export const BudgetManager = ({ budget, onUpdateBudget, totalExpenses }: BudgetM
               <div className="flex items-center space-x-3">
                 <DollarSign className="h-5 w-5 text-warning" />
                 <div>
-                  <p className="text-xs text-muted-foreground">Daily Budget</p>
-                  <p className="text-lg font-semibold">₹{status.dailyRemaining.toFixed(2)}</p>
+                  <p className="text-xs text-muted-foreground">Weekly Budget</p>
+                  <p className="text-lg font-semibold">₹{status.weeklyRemaining.toFixed(2)}</p>
                 </div>
               </div>
             </Card>

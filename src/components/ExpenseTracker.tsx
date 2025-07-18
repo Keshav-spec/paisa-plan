@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, TrendingDown, TrendingUp, Wallet, Target } from "lucide-react";
 import { ExpenseForm } from "@/components/ExpenseForm";
+import { CreditForm } from "@/components/CreditForm";
 import { ExpenseChart } from "@/components/ExpenseChart";
 import { CategoryList } from "@/components/CategoryList";
 import { BudgetManager } from "@/components/BudgetManager";
@@ -28,7 +29,8 @@ export interface Budget {
   totalAmount: number;
   duration: number; // in days
   startDate: string;
-  monthlyLimit?: number;
+  weeklyLimit?: number;
+  credits?: number;
 }
 
 const defaultCategories: Category[] = [
@@ -46,6 +48,7 @@ export const ExpenseTracker = () => {
   const [categories, setCategories] = useState<Category[]>(defaultCategories);
   const [budget, setBudget] = useState<Budget | null>(null);
   const [showExpenseForm, setShowExpenseForm] = useState(false);
+  const [showCreditForm, setShowCreditForm] = useState(false);
   const [currentView, setCurrentView] = useState<"dashboard" | "expenses" | "categories" | "budget">("dashboard");
   const { toast } = useToast();
 
@@ -96,24 +99,44 @@ export const ExpenseTracker = () => {
 
     // Check budget warnings
     if (budget) {
-      const currentMonth = new Date().getMonth();
-      const currentYear = new Date().getFullYear();
-      const monthlyExpenses = expenses.filter(expense => {
-        const expenseDate = new Date(expense.date);
-        return expenseDate.getMonth() === currentMonth && expenseDate.getFullYear() === currentYear;
-      });
+      const currentWeek = getWeeklyExpenses();
+      const weeklyBudget = budget.totalAmount / (budget.duration / 7);
       
-      const monthlyTotal = monthlyExpenses.reduce((sum, expense) => sum + expense.amount, 0) + expenseData.amount;
-      const monthlyBudget = budget.totalAmount / (budget.duration / 30);
-      
-      if (monthlyTotal > monthlyBudget * 0.9) {
+      if (currentWeek + expenseData.amount > weeklyBudget * 0.9) {
         toast({
           title: "Budget Warning",
-          description: "You're approaching your monthly budget limit!",
+          description: "You're approaching your weekly budget limit!",
           variant: "destructive",
         });
       }
     }
+  };
+
+  const addCredit = (amount: number, description: string) => {
+    if (budget) {
+      const updatedBudget = {
+        ...budget,
+        totalAmount: budget.totalAmount + amount,
+        credits: (budget.credits || 0) + amount
+      };
+      setBudget(updatedBudget);
+      setShowCreditForm(false);
+      
+      toast({
+        title: "Credit Added",
+        description: `₹${amount} added to your budget`,
+      });
+    }
+  };
+
+  const getWeeklyExpenses = () => {
+    const today = new Date();
+    const thisWeek = expenses.filter(expense => {
+      const expenseDate = new Date(expense.date);
+      const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+      return expenseDate >= weekAgo;
+    });
+    return thisWeek.reduce((sum, expense) => sum + expense.amount, 0);
   };
 
   const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
@@ -185,14 +208,25 @@ export const ExpenseTracker = () => {
 
       {/* Quick Actions */}
       <div className="space-y-3">
-        <Button 
-          onClick={() => setShowExpenseForm(true)}
-          className="w-full bg-gradient-primary hover:opacity-90 transition-opacity"
-          size="lg"
-        >
-          <Plus className="mr-2 h-5 w-5" />
-          Add Expense
-        </Button>
+        <div className="grid grid-cols-2 gap-3">
+          <Button 
+            onClick={() => setShowExpenseForm(true)}
+            className="bg-gradient-primary hover:opacity-90 transition-opacity"
+            size="lg"
+          >
+            <Plus className="mr-2 h-5 w-5" />
+            Add Expense
+          </Button>
+          <Button 
+            onClick={() => setShowCreditForm(true)}
+            variant="outline"
+            className="border-border/50 text-success border-success/30 hover:bg-success/10"
+            size="lg"
+          >
+            <Plus className="mr-2 h-5 w-5" />
+            Add Credit
+          </Button>
+        </div>
         
         <div className="grid grid-cols-2 gap-3">
           <Button 
@@ -275,6 +309,14 @@ export const ExpenseTracker = () => {
             categories={categories}
             onSubmit={addExpense}
             onClose={() => setShowExpenseForm(false)}
+          />
+        )}
+
+        {/* Credit Form Modal */}
+        {showCreditForm && (
+          <CreditForm
+            onSubmit={addCredit}
+            onClose={() => setShowCreditForm(false)}
           />
         )}
       </div>
