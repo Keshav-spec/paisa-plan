@@ -4,11 +4,15 @@
 
 Welcome to Paisa Plan, the next-generation expense tracker designed to empower you on your journey toward financial freedom! With Paisa Plan, managing your money is no longer a chore—it's a dynamic, insightful, and even enjoyable experience.
 
+Website: https://paisa-plan-9shi.vercel.app
+
 ## ✨ Key Features
 
 - **Smart Budgeting with Dynamic Insights**
   - Set your total budget and define your preferred duration (monthly, quarterly, or custom).
   - Instantly get adaptive weekly spending recommendations based on your goals and timeline.
+    <img width="406" height="843" alt="Screenshot 2025-08-24 134545" src="https://github.com/user-attachments/assets/0a639ecf-0545-46da-b28c-84ecedc20595" />
+
 
 - **Intuitive Categorized Expenses**
   - Effortlessly add expenses under customizable categories like Food, Travel, Entertainment, and more.
@@ -25,6 +29,8 @@ Welcome to Paisa Plan, the next-generation expense tracker designed to empower y
 - **Real-Time Progress Tracking**
   - Monitor your expenses and financial health live, with dynamic updates as you go.
   - Receive actionable insights to help you stay on track and achieve your savings goals.
+
+- **Provide warning messages when approaching weekly linits**
 
 ## 🚀 Getting Started
 
