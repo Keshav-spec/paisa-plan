@@ -1,3 +1,4 @@
+https://github.com/Keshav-spec/paisa-plan/blob/main/public/favicon.png?raw=true
 # Paisa Plan - Your Ultimate Expense Tracking Companion 🚀
 
 Welcome to Paisa Plan, the next-generation expense tracker designed to empower you on your journey toward financial freedom! With Paisa Plan, managing your money is no longer a chore—it's a dynamic, insightful, and even enjoyable experience.
