@@ -16,7 +16,7 @@ export const ExpenseChart = ({ expenses, categories, showDetails = false }: Expe
 
   // Process data for charts
   const categoryData = categories.map(category => {
-    const categoryExpenses = expenses.filter(expense => expense.category === category.id);
+    const categoryExpenses = expenses.filter(expense => expense.category === category.name);
     const total = categoryExpenses.reduce((sum, expense) => sum + expense.amount, 0);
     
     return {
@@ -182,7 +182,7 @@ export const ExpenseChart = ({ expenses, categories, showDetails = false }: Expe
           <h3 className="text-lg font-medium mb-4">Recent Expenses</h3>
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {expenses.slice(0, 10).map((expense) => {
-              const category = categories.find(cat => cat.id === expense.category);
+              const category = categories.find(cat => cat.name === expense.category);
               return (
                 <div key={expense.id} className="flex items-center justify-between p-2 bg-background/20 rounded">
                   <div className="flex items-center space-x-3">
