@@ -30,7 +30,9 @@ Website: https://paisa-plan-9shi.vercel.app
   - Monitor your expenses and financial health live, with dynamic updates as you go.
   - Receive actionable insights to help you stay on track and achieve your savings goals.
 
-- **Provide warning messages when approaching weekly linits**
+- **Provide warning messages when approaching weekly limits**
+ <img width="472" height="270" alt="Screenshot 2025-08-24 134510" src="https://github.com/user-attachments/assets/df906f26-b31b-4fb2-be71-8db05750ffcd" />
+
 
 ## 🚀 Getting Started
 
