@@ -5,6 +5,7 @@ import { Plus, TrendingDown, TrendingUp, Wallet, Target, LogOut } from "lucide-r
 import { ExpenseForm } from "@/components/ExpenseForm";
 import { CreditForm } from "@/components/CreditForm";
 import { ExpenseChart } from "@/components/ExpenseChart";
+import { TransactionList } from "@/components/TransactionList";
 import { CategoryList } from "@/components/CategoryList";
 import { BudgetManager } from "@/components/BudgetManager";
 import { useToast } from "@/hooks/use-toast";
@@ -43,6 +44,7 @@ export const ExpenseTrackerWithAuth = () => {
   const [showCreditForm, setShowCreditForm] = useState(false);
   const [currentView, setCurrentView] = useState<"dashboard" | "expenses" | "categories" | "budget">("dashboard");
   const [loading, setLoading] = useState(true);
+  const [creditHistory, setCreditHistory] = useState<Array<{ amount: number; date: string; description?: string }>>([]);
   const { toast } = useToast();
   const { user, signOut } = useAuth();
 
@@ -223,6 +225,14 @@ export const ExpenseTrackerWithAuth = () => {
       if (error) throw error;
 
       setBudget(prev => prev ? { ...prev, ...updatedBudget } : null);
+      
+      // Add to credit history
+      setCreditHistory(prev => [{
+        amount,
+        date: new Date().toISOString(),
+        description
+      }, ...prev]);
+      
       setShowCreditForm(false);
       
       toast({
@@ -419,7 +429,7 @@ export const ExpenseTrackerWithAuth = () => {
         {/* Content */}
         {currentView === "dashboard" && renderDashboard()}
         {currentView === "expenses" && (
-          <ExpenseChart expenses={expenses} categories={categories} showDetails />
+          <TransactionList expenses={expenses} categories={categories} credits={creditHistory} />
         )}
         {currentView === "categories" && (
           <CategoryList 

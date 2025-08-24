@@ -28,10 +28,16 @@ export const ExpenseForm = ({ categories, onSubmit, onClose }: ExpenseFormProps)
       return;
     }
 
+    // Find the category name from the ID
+    const selectedCat = categories.find(cat => cat.id === category);
+    if (!selectedCat) {
+      return;
+    }
+
     onSubmit({
       title,
       amount: parseFloat(amount),
-      category,
+      category: selectedCat.name, // Pass category name instead of ID
       description,
       date: date + "T00:00:00.000Z",
     });
